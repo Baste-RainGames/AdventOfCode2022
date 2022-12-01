@@ -54,11 +54,16 @@ while (true) {
             Console.Out.WriteLine($"Running day {day} with {(doExample ? "example input" : "actual input")}");
             dayHandler[day - 1].Invoke(doExample);
         }
-        else if (inputStr == "meta") {
-            for (int i = 2; i <= 24; i++) {
-                
-            }
-        }
+        // else if (inputStr == "meta") {
+        //     for (int i = 2; i <= 24; i++) {
+        //         var examplePath = $@"C:\Users\bnbua\RiderProjects\AdventOfCode2022\AdventOfCode2022\Day{i}Example";
+        //         var inputPath = $@"C:\Users\bnbua\RiderProjects\AdventOfCode2022\AdventOfCode2022\Day{i}Input";
+        //         File.WriteAllText(examplePath, "Nothing Here Yet");
+        //         File.WriteAllText(inputPath, "Nothing Here Yet");
+        //     }
+        //
+        //     return;
+        // }
         else {
             Console.Out.WriteLine($"I don't understand \"{inputStr}\"");
         }
