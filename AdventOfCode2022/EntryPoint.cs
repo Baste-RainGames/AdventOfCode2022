@@ -44,15 +44,33 @@ while (true) {
                 continue;
             }
             
-            Console.Out.WriteLine($"Do you want to run Day {day} with the example input or the real input? Write \"Example\" for example, anything else for real input");
+            Console.Out.WriteLine($"Do you want to run Day {day} with:\n" +
+                                  $"Example input? Write 'e'\n" +
+                                  $"Real input? Write 'r'\n" +
+                                  $"Both? Write 'b' or nothing");
 
-            var doExample = false;
+            // var doExample = false;
             var typeInput = Console.In.ReadLine();
-            if (typeInput is string str && str.ToLowerInvariant() == "example")
-                doExample = true;
+            if (typeInput == null) {
+                Console.Out.WriteLine("No input to read, end of stream?");
+                continue;
+            }
+
+            WhatToDo whatToDo = typeInput.ToLowerInvariant() switch {
+                "e" or "example" => WhatToDo.Example,
+                "r" or "real"    => WhatToDo.Real,
+                ""  or "both"    => WhatToDo.Both,
+                _ => throw new ArgumentOutOfRangeException()
+            };
             
-            Console.Out.WriteLine($"Running day {day} with {(doExample ? "example input" : "actual input")}");
-            dayHandler[day - 1].Invoke(doExample);
+            if (whatToDo != WhatToDo.Real) {
+                Console.Out.WriteLine($"Running day {day} with example input");
+                dayHandler[day - 1].Invoke(true);
+            }
+            if (whatToDo != WhatToDo.Example) {
+                Console.Out.WriteLine($"Running day {day} with real input");
+                dayHandler[day - 1].Invoke(false);
+            }
         }
         // else if (inputStr == "meta") {
         //     for (int i = 2; i <= 24; i++) {
@@ -68,4 +86,10 @@ while (true) {
             Console.Out.WriteLine($"I don't understand \"{inputStr}\"");
         }
     }
+}
+
+enum WhatToDo {
+    Example,
+    Real,
+    Both
 }
