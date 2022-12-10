@@ -102,7 +102,7 @@
       <None Update="Day14Input">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="Day9Example">
+      <None Update="Day9Example1">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Day4Example">
@@ -151,6 +151,9 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Day24Input">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Day9Example2">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
