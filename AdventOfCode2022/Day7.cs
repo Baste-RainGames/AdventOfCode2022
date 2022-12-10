@@ -9,7 +9,7 @@ public static class Day7 {
         
         var currentFolder = rootFolder;
         foreach (var line in data) {
-            if (TryTrimStart(line, "$ cd ", out var goToFolder)) {
+            if (Util.TryTrimStart(line, "$ cd ", out var goToFolder)) {
                 if (goToFolder == "/")
                     currentFolder = rootFolder;
                 else if (goToFolder == "..")
@@ -18,7 +18,7 @@ public static class Day7 {
                     currentFolder = currentFolder.subfolders.First(folder => folder.name == goToFolder); // assumption: folders are listed before entered
             }
             else if (!line.Equals("$ ls", StringComparison.Ordinal)) {
-                if (TryTrimStart(line, "dir ", out var dirName)) {
+                if (Util.TryTrimStart(line, "dir ", out var dirName)) {
                     var folder = new ElfFolder(dirName, currentFolder);
                     currentFolder.subfolders.Add(folder); // assumption: folders are only listed once!
                     allFolders.Add(folder);
@@ -69,15 +69,7 @@ public static class Day7 {
         }
     }
 
-    public static bool TryTrimStart(string str, string start, out string remainder) {
-        if (str.StartsWith(start, StringComparison.Ordinal)) {
-            remainder = str.Substring(start.Length);
-            return true;
-        }
 
-        remainder = null;
-        return false;
-    }
 
     public class ElfFolder {
         public readonly ElfFolder parentFolder;
