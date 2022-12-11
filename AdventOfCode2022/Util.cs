@@ -10,4 +10,14 @@ public static class Util {
         remainder = null;
         return false;
     }
+
+    public static int ParseInOnEndOfLineStartingWith(string text, string start) {
+        if (!TryTrimStart(text, start, out var remainder))
+            throw new Exception($"text \"{text}\" did not start with \"{start}\"");
+
+        if (!int.TryParse(remainder, out var intVal))
+            throw new Exception($"Could not parse {remainder} to int");
+
+        return intVal;
+    }
 }
