@@ -10,4 +10,10 @@ public static class Util {
         remainder = null;
         return false;
     }
+
+    public static T RemoveAndReturnFirst<T>(List<T> list) {
+        var t = list[0];
+        list.RemoveAt(0);
+        return t;
+    }
 }
