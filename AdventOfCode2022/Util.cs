@@ -27,3 +27,12 @@ public static class Util {
         return t;
     }
 }
+
+public record struct Point(int x, int y) {
+    public static Point operator +(Point a, Point b) {
+        return new Point(a.x + b.x, a.y + b.y);
+    }
+    public static Point operator -(Point a, Point b) {
+        return new Point(a.x - b.x, a.y - b.y);
+    }
+}

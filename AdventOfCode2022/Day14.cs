@@ -126,6 +126,4 @@ public static class Day14 {
 
         return new Point(int.Parse(split[0]), int.Parse(split[1]));
     }
-
-    public record struct Point(int x, int y);
 }

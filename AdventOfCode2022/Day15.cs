@@ -134,13 +134,4 @@ public static class Day15 {
     public record struct SensorBeaconPair(Point sensor, Point beacon) {
         public int ManhattanDistance => Math.Abs(sensor.x - beacon.x) + Math.Abs(sensor.y - beacon.y);
     }
-
-    public record struct Point(int x, int y) {
-        public static Point operator +(Point a, Point b) {
-            return new Point(a.x + b.x, a.y + b.y);
-        }
-        public static Point operator -(Point a, Point b) {
-            return new Point(a.x - b.x, a.y - b.y);
-        }
-    }
 }
