@@ -2,6 +2,8 @@ namespace AdventOfCode2022;
 
 public static class Day14 {
     public static void Run(bool example) {
+        var startTime = DateTime.Now;
+        
         var data = File.ReadAllLines(example ? "day14Example" : "day14Input");
 
         var filledPoints = new HashSet<Point>();
@@ -34,7 +36,6 @@ public static class Day14 {
         var lastPath = new HashSet<Point>();
 
         loopStart:
-        // DrawGrid();
         lastPath.Clear();
         var sandPos = new Point(500, 0);
 
@@ -56,17 +57,10 @@ public static class Day14 {
             lastPath.Add(sandPos);
         }
 
-        DrawGrid();
         Console.Out.WriteLine($"Puzzle 1 units of sand: {(filledPoints.Count - hasRocks.Count)}");
-
         filledPoints = new HashSet<Point>(hasRocks);
         
-        DrawGrid();
-
-        Console.In.ReadLine();
-        
         loop2Start:
-        // DrawGrid();
         sandPos = new Point(500, 0);
         if (filledPoints.Contains(sandPos))
             goto loop2End;
@@ -97,8 +91,14 @@ public static class Day14 {
         
         loop2End:
         lastPath.Clear();
-        DrawGrid();
-        Console.Out.WriteLine($"Puzzle 1 units of sand: {(filledPoints.Count - hasRocks.Count)}");
+        // DrawGrid();
+        Console.Out.WriteLine($"Puzzle 2 units of sand: {(filledPoints.Count - hasRocks.Count)}");
+
+        var doneTime = System.DateTime.Now;
+
+        var duration = doneTime - startTime;
+
+        Console.Out.WriteLine($"Total duration {duration.TotalMilliseconds} Milliseconds");
         
         void DrawGrid() {
             for (int y = 0; y <= maxY; y++) {
