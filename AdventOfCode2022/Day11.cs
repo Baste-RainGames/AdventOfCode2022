@@ -15,9 +15,9 @@ public static class Day11 {
 
         var index = 0;
         while (index < data.Length) {
+            index++; // skip monkey name
             var monkey = new Monkey(monkeys.Count);
             monkeys.Add(monkey);
-            index++; // skip monkey name
 
             foreach (var item in FindMonkeyItems(data, index++))
                 monkey.items.Enqueue(item);
@@ -133,7 +133,7 @@ public static class Day11 {
     }
 
     public class Monkey {
-        public Queue<Item> items = new();
+        public readonly Queue<Item> items = new();
         public Operation operation;
         public long divisibleBy;
         public Monkey throwToOnTrue;

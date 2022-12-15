@@ -13,21 +13,21 @@ public static class Day7 {
                 if (goToFolder == "/")
                     currentFolder = rootFolder;
                 else if (goToFolder == "..")
-                    currentFolder = currentFolder.parentFolder;
+                    currentFolder = currentFolder!.parentFolder;
                 else
-                    currentFolder = currentFolder.subfolders.First(folder => folder.name == goToFolder); // assumption: folders are listed before entered
+                    currentFolder = currentFolder!.subfolders.First(folder => folder.name == goToFolder); // assumption: folders are listed before entered
             }
             else if (!line.Equals("$ ls", StringComparison.Ordinal)) {
                 if (Util.TryTrimStart(line, "dir ", out var dirName)) {
                     var folder = new ElfFolder(dirName, currentFolder);
-                    currentFolder.subfolders.Add(folder); // assumption: folders are only listed once!
+                    currentFolder!.subfolders.Add(folder); // assumption: folders are only listed once!
                     allFolders.Add(folder);
                 }
                 else {
                     var parts = line.Split();
                     var size = int.Parse(parts[0]);
                     var name = parts[1];
-                    currentFolder.files.Add(new ElfFile(name, size));
+                    currentFolder!.files.Add(new ElfFile(name, size));
                 }
             }
         }
@@ -72,12 +72,12 @@ public static class Day7 {
 
 
     public class ElfFolder {
-        public readonly ElfFolder parentFolder;
+        public readonly ElfFolder? parentFolder;
         public readonly string name;
         public readonly List<ElfFolder> subfolders = new();
         public readonly List<ElfFile> files = new();
 
-        public ElfFolder(string name, ElfFolder parentFolder) {
+        public ElfFolder(string name, ElfFolder? parentFolder) {
             this.name = name;
             this.parentFolder = parentFolder;
         }

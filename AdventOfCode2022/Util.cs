@@ -7,7 +7,7 @@ public static class Util {
             return true;
         }
 
-        remainder = null;
+        remainder = string.Empty;
         return false;
     }
 
