@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace AdventOfCode2022;
 
 public static class Day18 {
@@ -22,73 +24,58 @@ public static class Day18 {
     }
 
     private static bool[,,] CloseInteriorSurfaces(int xMax, int yMax, int zMax, bool[,,] grid) {
-        // This is wrong! If there's an l-shape into the shape, that won't work. Correct approach is to BFS from the outside of the shape
+        /*
+1  procedure BFS(G, root) is
+ 2      let Q be a queue
+ 3      label root as explored
+ 4      Q.enqueue(root)
+ 5      while Q is not empty do
+ 6          v := Q.dequeue()
+ 7          if v is the goal then
+ 8              return v
+ 9          for all edges from v to w in G.adjacentEdges(v) do
+10              if w is not labeled as explored then
+11                  label w as explored
+12                  w.parent := v
+13                  Q.enqueue(w)
+         */
+
+        var q = new Queue<Vector3>();
+        var visited = new bool[xMax, yMax, zMax];
+
+        if (grid[0, 0, 0])
+            throw new();
+        
+        q.Enqueue(new Vector3(0, 0, 0));
+        while (q.Count > 0) {
+            var current = q.Dequeue();
+            foreach (var neighbour in NeighboursInGridWithNoLava(grid, current)) {
+                if (!visited[neighbour.x, neighbour.y, neighbour.z]) {
+                    visited[neighbour.x, neighbour.y, neighbour.z] = true;
+                    q.Enqueue(neighbour);
+                }
+            }
+
+            IEnumerable<Vector3> NeighboursInGridWithNoLava(bool[,,] lava, Vector3 point) {
+                var x = point.x;
+                var y = point.y;
+                var z = point.z;
+                
+                if (InBoundsAndEmpty(grid, x - 1, y, z)) yield return new Vector3(x - 1, y, z);
+                if (InBoundsAndEmpty(grid, x + 1, y, z)) yield return new Vector3(x + 1, y, z);
+                if (InBoundsAndEmpty(grid, x, y + 1, z)) yield return new Vector3(x, y + 1, z);
+                if (InBoundsAndEmpty(grid, x, y - 1, z)) yield return new Vector3(x, y - 1, z);
+                if (InBoundsAndEmpty(grid, x, y, z + 1)) yield return new Vector3(x, y, z + 1);
+                if (InBoundsAndEmpty(grid, x, y, z - 1)) yield return new Vector3(x, y, z - 1);
+            }
+        }
+
         var closed = new bool[xMax, yMax, zMax];
         for (int x = 0; x < xMax; x++)
         for (int y = 0; y < yMax; y++)
         for (int z = 0; z < zMax; z++)
-            closed[x, y, z] = true; // completely fill the closed shape 
-
-        // Shoot rays from all 6 directions, and remove fill until we hit interior fill
-        for (int x = 0; x < xMax; x++)
-        for (int y = 0; y < yMax; y++) {
-            // z forwards
-            for (int z = 0; z < zMax; z++) {
-                if (grid[x, y, z])
-                    break;
-                closed[x, y, z] = false;
-            }
-            // z backwards
-            for (int z = zMax - 1; z >= 0; z--) {
-                if (grid[x, y, z])
-                    break;
-                closed[x, y, z] = false;
-            }
-        }
-        
-        for (int x = 0; x < xMax; x++)
-        for (int z = 0; z < zMax; z++) {
-            // y forwards
-            for (int y = 0; y < yMax; y++) {
-                if (grid[x, y, z])
-                    break;
-                closed[x, y, z] = false;
-            }
-            // y backwards
-            for (int y = yMax - 1; y >= 0; y--) {
-                if (grid[x, y, z])
-                    break;
-                closed[x, y, z] = false;
-            }
-        }
-
-        for (int y = 0; y < yMax; y++)
-        for (int z = 0; z < zMax; z++) {
-            // x forwards
-            for (int x = 0; x < xMax; x++) {
-                if (grid[x, y, z])
-                    break;
-                closed[x, y, z] = false;
-            }
-            
-            // x backwards
-            for (int x = xMax - 1; x >= 0; x--) {
-                if (grid[x, y, z])
-                    break;
-                closed[x, y, z] = false;
-            }
-        }
-
+            closed[x, y, z] = !visited[x, y, z];
         return closed;
-
-        // for (int x = 0; x < xMax; x++)
-        // for (int y = 0; y < yMax; y++)
-        // for (int z = 0; z < zMax; z++) {
-        //     if (!grid[x, y, z]) {
-        //         if (LaveInAllDirections(grid, x, y, z))
-        //             grid[x, y, z] = true;
-        //     }
-        // }
     }
 
     private static int CalcSurfacesOnGrid(   bool[,,] grid, int xMax, int yMax, int zMax) {
@@ -112,6 +99,12 @@ public static class Day18 {
     private static bool OutOfBoundsOrEmpty(bool[,,] grid, int x, int y, int z) {
         if (x < 0 || y < 0 || z < 0 || x >= grid.GetLength(0) || y >= grid.GetLength(1) || z >= grid.GetLength(2))
             return true;
+        return !grid[x, y, z];
+    }
+    
+    private static bool InBoundsAndEmpty(bool[,,] grid, int x, int y, int z) {
+        if (x < 0 || y < 0 || z < 0 || x >= grid.GetLength(0) || y >= grid.GetLength(1) || z >= grid.GetLength(2))
+            return false;
         return !grid[x, y, z];
     }
 
