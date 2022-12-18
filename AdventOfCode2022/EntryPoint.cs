@@ -60,8 +60,13 @@ while (true) {
                 "e" or "example" => WhatToDo.Example,
                 "r" or "real"    => WhatToDo.Real,
                 ""  or "both"    => WhatToDo.Both,
-                _ => throw new ArgumentOutOfRangeException()
+                _                => WhatToDo.Nothing
             };
+
+            if (whatToDo == WhatToDo.Nothing) {
+                Console.Out.WriteLine($"I don't understand {typeInput}");
+                continue;
+            }
             
             if (whatToDo != WhatToDo.Real) {
                 Console.Out.WriteLine($"Running day {day} with example input");
@@ -91,5 +96,6 @@ while (true) {
 enum WhatToDo {
     Example,
     Real,
-    Both
+    Both,
+    Nothing
 }
