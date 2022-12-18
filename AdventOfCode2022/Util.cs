@@ -36,3 +36,5 @@ public record struct Point(int x, int y) {
         return new Point(a.x - b.x, a.y - b.y);
     }
 }
+
+public record struct Vector3(int x, int y, int z);

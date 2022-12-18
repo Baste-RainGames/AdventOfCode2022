@@ -6,9 +6,11 @@ public static class Day17 {
     private const int chuteWidth = 7;
 
     public static void Run(bool example) {
-        if (example)
-            throw new();
-        
+        if (example) {
+            Console.Out.WriteLine("Code stopped working at the example long ago! Values from the real input has been hard-coded");
+            return;
+        }
+
         // DoTheTest(new List<int> { 1, 2, 3, 1, 2, 3 });
         // DoTheTest(new List<int> { 1, 2, 3, 4, 5, 6 });
         // DoTheTest(new List<int> { 1, 2, 1, 2 });
